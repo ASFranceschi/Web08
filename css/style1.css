@@ -1,0 +1,141 @@
+#page{
+	color : blue;
+}
+
+#pageactive {
+	color: white;
+}
+
+#header{
+	/*background-image:url(../images/logo.png);*/
+	background-repeat: no-repeat;
+	background-size:100%;
+}
+
+#erreur{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	padding: 10px 15px;
+}
+
+#inscription, #connexion, #mdpOublie, #profil, #evenement, #reponse, #compteSupprime {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	padding: 50px 15px;
+}
+
+#connexionFormulaire, #mdpOublieFormulaire, #modificationFormulaire, #profilBox, #evenementBox{
+	display: block;
+	width: 500px;
+	margin: auto;
+}
+
+#inscriptionFormulaire{
+	display: block;
+	width: 600px;
+	margin: auto;
+}
+
+#inscriptionTd, #connexionTd, #mdpOublieTd, #evenementTd, #reponseTd{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+#inscription2Td{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display : inline;
+	width : 47%;
+}
+
+#profilTd, #evenementTd{
+	text-align: left;
+	margin: auto;
+}
+
+#profilTd{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#boutonProfilTd{
+	margin: 5px 20px;
+	display: inline-block;
+}
+
+/*#mdpOublie h1{
+	margin-top: 5%;
+}*/
+
+#notrePresentation{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: justify;
+	padding: auto;
+}
+
+/*#inscriptionImage{
+	display: inline-block;
+	float: right;
+	vertical-align: middle;
+	margin-right: 25%;
+}*/
+
+/*#connexionImage{
+	display: inline-block;
+	float: right;
+	vertical-align: middle;
+	margin-right: 15%;
+}*/
+
+.shadow{	/*boite pour chaque cours*/
+	color: red;
+	display: inline-block;
+	width: 200px;
+	height: 200px;
+	margin-right : 3px;
+	margin-bottom : 1px;
+	border-width:1px;
+	border-style:solid;
+	border-color:black;
+}
+
+.log{
+	list-style-type: none;
+	margin-left: 80%;
+}
+
+.log li{
+	display: inline-block;
+}
+
+.footer{
+	padding: 10px 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.img-circle{
+	margin: 0 25%;
+}
+
+body {
+	position: right;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+h1,h2 {
+	padding: 20px;
+	margin-top: 70px;
+}
+
+p{
+	padding: 10px 20px;
+}
+
+strong{
+	font-weight: bold;
+}
+

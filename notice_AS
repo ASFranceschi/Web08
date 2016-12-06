@@ -1,0 +1,138 @@
+﻿10/4 - Début des CSS / Bootstrap
+	Dans les Templates : 
+		rajout du <div class="container">
+		Dans content_anonymousTemplate et content_connectedTemplate : 
+			ajout du caroussel
+			séparation des 2 templates pour envoie sur des liens différents (cours uniquement publics ou tous les cours)
+			pour le connected
+		Dans content_inscriptionTemplate :
+			ajout de id="xxx" pour le css
+			début des années en 1950 au lieu de 1970
+		Dans content_loginTemplate :
+			ajout de id="xxx" pour le css
+			commentaire de else echo $errorText
+		Dans footTemplate : 
+			ajout d'un footer plus sympa
+		Dans headTemplate et headerTemplate :
+			séparation : le premier pour les liens... et le second pour ce qui s'affiche à l'écran
+		Dans les menu_xxxTemplate :
+			changement de l'affichage des boutons
+		
+	Dans les View :
+		loadTemplate('header') en plus
+		loadTemplate('content_xxx') décommenté parfois
+		
+	Ajout d'images
+	
+	Style1.css :
+		quelques modifs de mise en page
+	
+	
+11/04 - Continuation des CSS / Boostrap
+	Dans les Templates :
+		header_connectedTemplate : 
+			bouton Déconnexion dans la barre du haut à droite => plus besoin de menu_connected.
+			lien vers la liste de tous les cours
+		header_anonymousTemplate : 
+			boutons Connexion et Créer un compte dans la barre du haut à droite=> plus besoin de menu_anonymous.
+			lien vers la liste de tous les cours publics
+		content_inscriptionTemplate :
+			j'ai mis les vrais mois et pas juste des chiffres (et ouais maggle,je suis pas une feignasses ^^)
+			
+	Style1.css : 
+		suppression des images des vues Connexion et Inscription
+		centrage des formulaires de connexion et d'inscription
+	
+12/04 - CSS pour la récupération du mdp
+	Dans les Templates :
+		création de content_recuperationMdpOublieTemplate
+		création de content_videRecuperationMdpOublieTemplate
+		suppression de menu, menu_anonymous et menu_connected
+		mdpOublieTemplate : 
+			un peu mieux
+		content_xxxEventListTemplate : 
+			sous forme de grille clickable avec photo
+		content_developpeusesTemplate : 
+			présentation sous forme de grille
+			photos arrondies
+			textes justifié
+			centrage de l'ensemble sur la page
+	Dans les View :
+		création de RecuperationMdpOublieView
+		création de VideRecuperationMdpOublieView
+	Dans les controller:
+		appel à RecuperationMdpOublieView dans AnonymousController>>mdpOublie
+	Dans css:
+		style1 continué
+	
+13/04 - Récupération infos sur le user et sur les événements
+	Dans les Templates :
+		Dans content_inscriptionTemplate : 
+			rajout du champ confirmation du mot de passe et * sur prénom (pour le Bonjour nominatif de l'accueil connecté)
+			limitation du copier-coller
+		Dans content_userEventListTemplate : 
+			changement du lien dans eventListDivT() pour avoir les infos sur le cours
+		Dans header_connectedTemplate :
+			lien vers une page où l'utilisateur peut voir son profil (et le mettre à jour)
+			récupération des idUser dans tous les liens
+		Création de content_userProfilTemplate
+	Dans les View :
+			création de UserProfilView
+			renomage AnonymousDeveloppeusesView et UserDeveloppeusesView
+	Dans les Controller :
+		Dans AnonymousController>>validateInscription() : 
+			vérification mot de passe et sa confirmation identiques
+			confirmation mdp et prénom rendus obligatoires (prénom pour le Bonjour nominatif de l'accueil connecté)
+		Dans AnonymousController et UserController : 
+			chacun a une méth eventShow() qui renvoie respectivement sur AnonymousEventView ou sur UserEventView 
+				tu ne peux pas en faire une seule car sinon, problème dans la barre du haut...)
+			idem pour developpeuses()
+	Dans les Model : 
+			fin des meth getXX dans UserModel
+		
+14/04 : Modification des infos du profil
+	Dans les Templates :
+		création du content_userModifierProfilTemplate
+	Dans les View :
+		création du UserModifierProfilView
+	Débuggage de la récupération et de la modification des infos du profil
+	Dans la BdD : création des champs QUESTION et REPONSE
+	
+
+15/04 : Fin de la récupération du mdp, suppression d'un compte utilisateur, affichage des erreurs (création compte, login et modifs) dans des vues dédiées, modification du mdp
+	Dans les Templates :
+		création de content_userSupprimerCompteTemplate
+		création de content_userCompteSupprimeTemplate
+		creation de content_erreurModificationProfilTemplate
+		creation de content_erreurInscriptionTemplate
+		creation de content_erreurConnexionTemplate
+		dans content_recuperationQuestionTemplate : débug du cas où l'utilisateur ne rentre pas de réponse
+		dans content_userProfilTemplate : ajout du bouton supprimer compte + popup de vérification
+	Dans les View :
+		création de UserSupprimerCompteView
+		création de UserCompteSupprimeView
+		création de ErreurModificationProfilView
+		creation de ErreurInscriptionView
+		création de ErreurConnexionView
+		dans le caroussel connected, changement du lien (id utilisateur)
+	Dans les Controller :
+		Dans  UserController :
+			création des fonctions supprimerCompte et validateSuppressionCompte
+	Dans les Model :
+		Dans UserModel : 
+			création de la fonction supprimerCompte($id);
+			création de la fonction setMail($mail, $id)
+	
+	A finir :
+		Dans EventModel et content_xxxEventListTemplate : récupérer le bon ID de l'événement dans le href
+		
+	A faire : 
+		Dans les Templates :
+			Dans content_xxxEventListTemplate :
+				Charger les photos (et description qui apparait en hover) de chaque événement
+		Dans la barre du haut : écriture en blanc selon la page où on est
+		Dans le AnonymousController, on affiche par exemple $view->setArg('inscErrorText', 'Veuillez renseigner les champs obligatoires (*)');
+			(3 cas différents : login existe déjà, champs obligatoires vides ou mdp et sa confirmatio différents): il faudrait le faire dans une (ou trois ? )View
+	
+	
+		

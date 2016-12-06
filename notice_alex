@@ -1,0 +1,215 @@
+9/4
+	content_logintemplate : modification des submits : code dans validateConnexion
+		l'action du formulaire renvoit forcément a validate connexion : y mettre les ifset et header location.
+		
+	anonymousctrl>validateConnexion : rajout du code en dispatch et création de requete. Ca reste écrit Anonymous mais l'action a bien été effectuée. 
+		Solution : apres le dispatch on laisse notre header location, pour modifier les parametres GET de l'url.
+		par la suite on a les bons ctrl, et on a quand meme fait le dispatch.
+		
+	userctrl>deconnexion : ajout du dispatch+execute apres le header location.
+	
+	sql : il faudra telch le model depuis power AMC : pleins de soucis d'extportation/import si on change ma PK de mail>ID_UTILISATEUR
+	
+	creation de content_creationTemplate.  ATENTION : tous nos liens doivent contenir le style css!
+
+	content_inscriptionTemplate : réalisation des menus déroulants de date via fonctions.
+		tout marche mais inscription non complete car pas de remplissage des champs événements.
+		
+	sql : un utilisateur peut créer et gérer plusieurs événements. 
+		il n'a donc pas besoin des  champs creer et gerer. 
+		on les retrouvera via requetes sql sur événement. un événement a n créateur et des gérants. 
+		modifier si nécessaire pour avoir des gérants uniques.
+		
+	validateInscription : suppression de user isset : même avec tous les champs remplis ca ne marche pas. 
+		l'inscription marche alors mais pas de tests sur les longueurs de texte et de password. 
+		apres on avait pas mis de champs obligatoires non plus !
+		> a la place, tester si les champs login et mdp sont nuls.
+		Ca marche en local mais pas sur CAROTDAV (enfin on peut pas se connecter)
+		
+10/04
+	sql : modification grossière de la BdD.
+	ajout du champ EVENEMENT_PRIVE (bool) renvoyant 0 si ev public
+	
+	EventModel : creation des meth isTitreCourtUsed() et create(), sur le modèle de UserModel.
+		creation de anonymousEventList() et userEventList : affiche la liste des events dans un tableau.
+			ce tableau va créer les divs
+		
+	
+	anonymous/connectedTemplate : changement des phrases trop sérieuses en quelque chose de plus swagg. 
+	
+	eventList.js : ajout d'une partie de mon code de taquin : création de div. (inutile)
+	
+	style1.css : ajout de la classe .shadow : permet de mettre les divs bien alignée (ne marche pas)
+	
+11/04
+	EventController, AnonymousController, UserController : modif des methodes d'acces aux Event : ca marche nickel
+	
+	sql : modif de la base de données terminée (web08PKAlex.sql)
+	
+	connectedTemplate : ajout du lien vers l'action userEventDiv() qui affiche les divs.
+	
+	sql : on est OK sur web08. les requetes de UserModel sont corrigée comme Fabresse nous l'a indiqué. Pas de soucis dans EventModel.
+	
+	AnonymousController>mdp : renvoie à la MdpOublieView. 
+			
+	AnonymousController::mdpOublie : renvoie le mdp d'un user si jamais il est bien dans la Bdd.
+		c'est hyper moche avec le echo, mais je sais pas si on fait aussi une nouvelle vue. une popup serait cool !
+		Ce n'est pas encodé en UTF-8...
+		
+	content_loginTemplate + anonymousctrl>validateConnexion : ajout du session_start() comme fabresse
+	
+	AnonymousEventListView : rajout de la methode eventListDiv() qui va nous afficher nos div comme il faut.
+	idem dans UserEventList, UserController...
+	
+	UserController>deconnexion : déplacement de la vue apres le dispatch (évite les erreurs de load)
+	
+	##################################################################
+	
+			On a : inscription au site, connexion, déconnexion OK
+			la liste des événements dans des divs moches. (récupérer des images à la place, des titres en dessous des images (faire des div dans la div ppale)
+			
+			reste a faire : tout le css, la charte graphique, la page de a propos. 
+			inscription à un événement. Proposer des produits. la page d'un événement avec toutes les infos (sur le modèle de getId() et getMdp())
+			le tri par catégories (dans le menu, une liste déroulante à la place de Cours : mettre aucune, programmation, dessin...)
+
+12/04
+	developpeuseView, ctrls>developpeuses : affiche la page des développeuses
+	ajout d'images redimentionnées #Ter'Mines all
+	
+	mdp : modif de content_reccuperationMdpOublie : rajout d'une fct
+		Anonctrl : rajout d'une fct (nouvelle vue avec le mail dans l'url pour le réccupérer)
+		--> c'est sale, mais ca marche !
+		
+13/04
+	suppression de la methode renderMdp (test pour récupérer le mail dedans)
+	
+	Apparition dans toutes les urls des la connexion, l'id de l'user.(verifier une par une ^^)
+		fonction getId; getPrenom, getMail, selon l'id
+			commentaire de tous les query de usermodel (cf fabresse)
+			--> soit on fait une fat methode dans UserCtrl, soit dans chaque templates : la 2eme option permet d'avoir plus de choix, moins factorisé
+
+	avoir le prenom lors de la connexion
+		AnonymousController : modif de validateConnexion (ajout de user et id) 
+		modif de connectedTemplate
+		-->OK
+		
+	images Bdd: Ajout d'images dans la Bdd(logo Termines all)
+		A faire : récupérer dans le code pour remplacer anSoLow par ca
+	
+	creation de toutes les fcts de EventModel en ($id), sauf getEvenement Privé
+		meth getImage à vérifier
+		
+		contentEventListDiv : modif du href vers l'action eventShow
+		creation de eventShow et EventView et eventTemplate
+		
+	-->tous nos urls apres le eventdiv auront un champ idEvent
+		
+		
+	Suppression de COntentTemplate
+	
+	
+14/04
+	UserModel : c'est quoi getMdpProfil ?
+		setxxx crées.
+		suppression de ModificationProfil()
+		
+	userModierProfilTemplate : suppression du mail à changer
+		pb avec la date : j'ai mis ca en champ texte sinon par défaut c'est 1950 lors de l'envoi du formulaire
+		
+	inscriptionTemplate : création de trois questions réponses.
+	-->ajout de QUESTION (int 1 default 1) et de REPONSE (varchar 100) dans la base sql (exportée)
+		
+	demande de la Q secrète :
+	ajout de recupQ, QuestionView et questionTemplate, à intercaler entre login et mdp.
+		pb : lors de reccuperationMdp, on a un nonObject sur la methode getReponse($email)
+		mes fct ont plus de champs car je les lis dans l'url hors fct
+		
+		
+		#########################
+	Connexion et inscription et mdp ok (rajout de get_Mail et d'un echo dans le lien du formulaire #onEstConnes)
+	Attention, j'ai eu une fois un bug dans l'enchainement des pages : l'idUser aait disparut !!
+
+	pas de soucis d'info 'a part la Qsecrete non changeable	
+	
+	
+	event :
+		creation de getIdFromTC : utilisé dans le eventListTemplate dans le href	
+			ca marche pas : set pas l'url....
+			solution envisageable : faire une methode dans eventModel pour réccupérer l'id à partir d'une chaine de caractère
+			
+			
+15/04	
+	eventlistdivT : on a un l'dEvent dans l'url 
+	les bons événements s'affichent.
+	
+	supression des vues event et celles sans.class
+	
+	userEventListTemplate : rajout de l'idUser dans l'url.
+	
+	creation des vues xxxEventInscriptionView et des templates (pas testé, pas fini user)
+		--> le mec a pasbesoin de rentrer ses données, tout est stocké via ses infos de profil (cf ta methode update). 
+		bouton annuler inscription et choix produits marchent pas encore
+		
+	sql : mdp a 20 caracteres sur carotdav
+	
+		VERIF DES TEMPLATE
+		
+		Supression de ceux en trop. Par pitié, fait le aussi !!!
+		
+		VERIF DES VIEW
+		enlevage des commentaire, templates side, menu et top.
+		
+	
+16/04
+	creation du ParticiperModel
+		Au vu de la table sql (obligation d'avoir un id), les anonymous sont obligés de créer un compte
+	
+	getMailCreateur : ok dans gérerModel
+	
+	creation de PossederModel, GererModel....
+		update de la fct EventModel::create()
+		Cration des meths create et maj dans PossederModel
+		
+	sql : rajout de produits, tarifs...
+		suppression du champ ID_UTILISATEUR de evenement : il est deja dans gerer
+	
+	Creation de alreadyParticiper, EventInscriptionValidee en vue et template
+	
+	les get sont partiellement fait (ok produit et proposer)
+	pas les set (a faire pour les gérant et admins)
+	
+17/04
+	sql : passage des tarifs a 5,20
+	attention aux stocks négatifs
+	
+	Achat OK
+	
+	Désinscription aux événements (inscriptionValideeTemplate et profilTemplate) seche !
+	
+	
+	Reste a afficher les infos dans le profil (annulation des achats produits...)
+	Création des événements (certaines methodes sont déjà commencées dans GererModel et EventModel) et changement des roles de P a G
+	Mode de paiement douteux.
+	Partie admin : gestion des stocks, supression des comptes bizarres (un onglet supplémentaire dans le headerconnected je pense)
+		possibilité de faire monter en grade les gens
+	Verifier les boutons css (plus de success mais info, warning en primary -outlined,)
+	recherche d'images, et utilisation de celles dans la Bdd
+	
+	Et ca sera quasi fini !!
+	
+
+18/04
+	Regroupement des vues erreurs, changement de l'id css, view, template.
+	Creation et chargement des images depuis la BDD réussie!
+	Creation d'event privés réussie ! avec teléchargement des images
+	
+19/04	
+	chargement des images en anonymous
+	modification de la participation des anonymes
+	Changement des images du caroussel
+	maj des tables proposer, gérer... lors de la création d'événement. On propose un seul produit.
+	rajout de pageactive dans le css
+	nom a coté du bouton déconnexion
+	
+	
+		
